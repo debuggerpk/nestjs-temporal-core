@@ -3,6 +3,7 @@ import {
     Client,
     WorkflowHandle,
     WorkflowStartOptions as TemporalWorkflowStartOptions,
+    WorkflowHandleWithStartDetails as TemporalWorkflowHandleWithStartDetails,
 } from '@temporalio/client';
 import { TEMPORAL_CLIENT, TEMPORAL_MODULE_OPTIONS } from '../constants';
 import {
@@ -171,6 +172,44 @@ export class TemporalClientService implements OnModuleInit {
         /* istanbul ignore next */
         // This should never be reached due to the throw in the catch block
         throw new Error(`Failed to start workflow '${workflowType}' after ${maxRetries} attempts`);
+    }
+
+    /** Start a workflow without blocking */
+    async start(
+        workflowType: string,
+        args: unknown[] = [],
+        options?: WorkflowStartOptions,
+    ): Promise<TemporalWorkflowHandleWithStartDetails> {
+        const workflowId = options?.workflowId || this.generateWorkflowId(workflowType);
+        const taskQueue = options?.taskQueue || this.options.taskQueue || 'default';
+
+        // Build workflow start options using the SDK's type
+        // Duration accepts string | number, so our string timeouts work directly
+        const workflowOptions: TemporalWorkflowStartOptions = {
+            workflowId,
+            taskQueue,
+            args,
+            ...(options?.workflowExecutionTimeout && {
+                workflowExecutionTimeout: options.workflowExecutionTimeout,
+            }),
+            ...(options?.workflowRunTimeout && {
+                workflowRunTimeout: options.workflowRunTimeout,
+            }),
+            ...(options?.workflowTaskTimeout && {
+                workflowTaskTimeout: options.workflowTaskTimeout,
+            }),
+            ...(options?.searchAttributes && {
+                typedSearchAttributes: options.searchAttributes,
+            }),
+            ...(options?.memo && {
+                memo: options.memo,
+            }),
+            ...(options?.workflowIdReusePolicy && {
+                workflowIdReusePolicy: options.workflowIdReusePolicy,
+            }),
+        };
+
+        return this.client!.workflow.start(workflowType, workflowOptions);
     }
 
     /**
