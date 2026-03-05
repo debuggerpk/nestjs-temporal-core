@@ -31,7 +31,7 @@
     "type-check": "tsc --noEmit",
     "fix-all": "npm run format && npm run lint",
     "update:packages": "npx npm-check-updates -u",
-    "prepare": "husky",
+    "prepare": "husky & npm run build",
     "version": "npm run fix-all && git add -A src",
     "postversion": "git push && git push --tags",
     "clean": "rimraf dist",
