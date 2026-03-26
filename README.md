@@ -4,10 +4,7 @@
 
 A comprehensive NestJS integration framework for Temporal.io that provides enterprise-ready workflow orchestration with automatic discovery, declarative decorators, and robust monitoring capabilities.
 
-![Statements](https://img.shields.io/badge/statements-98.72%25-brightgreen.svg?style=flat)
-![Branches](https://img.shields.io/badge/branches-91.72%25-brightgreen.svg?style=flat)
-![Functions](https://img.shields.io/badge/functions-99.69%25-brightgreen.svg?style=flat)
-![Lines](https://img.shields.io/badge/lines-98.78%25-brightgreen.svg?style=flat)
+[![Coverage](https://codecov.io/gh/harsh-simform/nestjs-temporal-core/graph/badge.svg)](https://codecov.io/gh/harsh-simform/nestjs-temporal-core)
 
 [Documentation](https://harsh-simform.github.io/nestjs-temporal-core/) • [NPM](https://www.npmjs.com/package/nestjs-temporal-core) • [GitHub](https://github.com/harsh-simform/nestjs-temporal-core) • [Example Project](https://github.com/harsh-simform/nestjs-temporal-core-example)
 
