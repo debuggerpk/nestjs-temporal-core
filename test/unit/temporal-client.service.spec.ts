@@ -447,17 +447,14 @@ describe('TemporalClientService', () => {
             );
             (mockClient.workflow!.start as jest.Mock).mockRejectedValue(alreadyStartedError);
 
-            await expect(service.startWorkflow('testWorkflow')).rejects.toThrow(
-                WorkflowExecutionAlreadyStartedError,
-            );
-
             const thrownError = await service
                 .startWorkflow('testWorkflow')
                 .catch((e) => e);
+
             expect(thrownError).toBeInstanceOf(WorkflowExecutionAlreadyStartedError);
             expect(thrownError.workflowId).toBe('my-workflow-id');
             expect(thrownError.workflowType).toBe('testWorkflow');
-            expect(mockClient.workflow!.start).toHaveBeenCalledTimes(2);
+            expect(mockClient.workflow!.start).toHaveBeenCalledTimes(1);
         });
 
         it('should throw after max retries', async () => {
